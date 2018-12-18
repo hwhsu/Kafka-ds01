@@ -1,0 +1,33 @@
+# list out all kafka topic
+kafka-topics --list --zookeeper zookeeper:2181
+
+# create a new kafka topic "ak03.fireandforget"
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic ak03.fireandforget
+
+# create a new kafka topic "ak03.syncsending"
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic ak03.syncsending
+
+# create a new kafka topic "ak03.asyncsending"
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic ak03.asyncsending
+
+# create a new kafka topic "ak03.json"
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic ak03.json
+
+# create topic "ak03.fourpartition" for Consumer_01_CGroup demo
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 4 \
+  --topic ak03.fourpartition
+

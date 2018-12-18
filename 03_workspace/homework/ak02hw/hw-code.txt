@@ -1,0 +1,17 @@
+kafka-topics --create \
+ --zookeeper zookeeper:2181 \
+ --replication-factor 1 \
+ --partitions 5 \
+ --topic topic5p
+
+kafka-topics --zookeeper zookeeper:2181 \
+  --topic topic5b \
+  --alter \
+  --partitions 3
+
+## Q. 13
+
+kafka-console-producer --broker-list kafka:9092 \
+--topic product-inventory \
+--property parse.key=true \
+--property key.separator=,

@@ -1,0 +1,83 @@
+# hands on
+
+Change to path that contains docker-compose.yml  (linux & mac only)
+
+```
+cd ~/ds01/03_workspace/env
+```
+
+Start Zookeeper & Kafka
+
+```
+docker-compose up -d
+```
+
+Get into Docker container
+
+```
+docker exec -it env_kafka_1 bash
+```
+
+Kafka Topic: create
+
+```
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 --partitions 1 \
+  --topic test
+```
+
+Kafka Topic: list
+
+```
+kafka-topics --list --zookeeper zookeeper:2181
+```
+
+Kafka Topic: describe
+
+```
+kafka-topics --describe --zookeeper zookeeper:2181 --topic test
+```
+
+Kafka Topic: delete
+
+```
+kafka-topics --delete --zookeeper zookeeper:2181 --topic test
+```
+
+Create Kafka Topic for Practice (test2)
+
+```
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 --partitions 1 \
+  --topic test2
+```
+
+Publishing data to a topic using the console producer
+
+```
+kafka-console-producer --broker-list kafka:9092 --topic test2
+```
+
+Type in console:
+
+```
+>Hello
+>Hello2
+```
+
+Create Kafka Topic for Practice (test3)
+
+```
+kafka-topics --create --zookeeper zookeeper:2181 \
+  --replication-factor 1 --partitions 1 \
+  --topic test3
+```
+
+Consuming data from a topic using the console consumer
+
+```
+kafka-console-consumer \
+  --bootstrap-server kafka:9092 \
+  --from-beginning \    # 從頭開始 consume
+  --topic test3
+```

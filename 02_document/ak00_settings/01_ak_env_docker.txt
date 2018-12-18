@@ -1,0 +1,69 @@
+# Verify Docker readiness
+docker --version
+
+docker-compose --version
+
+docker run hello-world
+
+# Create Training File/Directory (linux & mac only)
+mkdir ~/ds01
+mkdir ~/ds01/01_software
+mkdir ~/ds01/02_document
+mkdir ~/ds01/03_workspace
+mkdir ~/ds01/03_workspace/env
+mkdir ~/ds01/03_workspace/hands-on
+mkdir ~/ds01/03_workspace/hands-on/java
+mkdir ~/ds01/03_workspace/hands-on/python
+
+# Get Docker-Compose configuration file
+wget https://gist.githubusercontent.com/erhwenkuo/7b72c2464419ab5806a7332005ae41e8/raw/c4b1710fc2b77ce7b90adfee6646cd93fb349cbd/docker-compose.yml
+
+mv docker-compose.yml ~/ds01/03_workspace/env
+
+# Change to path that contains docker-compose.yml  (linux & mac only)
+cd ~/ds01/03_workspace/env
+
+# Start Zookeeper & Kafka
+docker-compose up -d
+
+# Verify Zookeeper & Kafka services
+docker-compose ps
+
+# Verify Zookeeper is healthy (linux & mac only)
+docker-compose logs zookeeper | grep  -i binding 
+
+# Verify Kafka is healthy (linux & mac only)
+docker-compose logs kafka | grep  -i started
+
+# Get into Docker container
+docker exec -it env_kafka_1 bash
+
+# Create a topic
+kafka-topics --create \
+   --topic test \
+   --replication-factor 1 \
+   --partitions 1 \
+   --zookeeper zookeeper:2181
+
+# Publish data
+kafka-console-producer \
+   --broker-list kafka:9092 \
+   --topic test
+
+# Subscribe data
+kafka-console-consumer \
+   --bootstrap-server kafka:9092 \
+   --topic test \
+   --from-beginning
+
+# Shutdown Zookeeper & Kafka
+docker-compose stop
+
+# Start exiting Zookeeper & Kafka
+docker-compose start
+
+# Remove Zookeeper & Kafka container/data
+docker-compose down
+
+
+

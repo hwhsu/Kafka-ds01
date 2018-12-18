@@ -1,0 +1,40 @@
+# Remove Topics
+
+```
+kafka-topics --delete --zookeeper zookeeper:2181 --topic ak02.hw.translog
+kafka-topics --delete --zookeeper zookeeper:2181 --topic ak02.hw.balancelog
+kafka-topics --delete --zookeeper zookeeper:2181 --topic ak02.hw.balancelog2
+```
+
+# Create Topics: ak02.hw.translog
+
+```
+kafka-topics --create \
+  --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic ak02.hw.translog
+```
+
+# Create Topics: ak02.hw.balancelog
+
+```
+kafka-topics --create \
+  --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic ak02.hw.balancelog
+```
+
+# Create Topics: ak02.hw.balancelog2 (啟動compaction的功能)
+
+```
+kafka-topics --create \
+  --zookeeper zookeeper:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --config cleanup.policy=compact \
+  --topic ak02.hw.balancelog2 \
+  --config min.cleanable.dirty.ratio=0.001 \
+  --config segment.ms=1000
+```
